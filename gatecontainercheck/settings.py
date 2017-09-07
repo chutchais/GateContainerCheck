@@ -23,11 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'aya)k=r1bfb^gror81s=5s2dfxyes-7*&%88x+k69d@np*6(r#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
-LOGIN_REDIRECT_URL = '/' # It means home view
 
 
 # Application definition
@@ -39,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'customcheck'
+    'rest_framework',
+    'customcheck',
 ]
 
 MIDDLEWARE = [

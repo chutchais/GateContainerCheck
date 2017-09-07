@@ -60,7 +60,7 @@
         </div>
 
         {% if request.user.is_authenticated %}         
-          <a class="navbar-brand navbar-right" href="logout/">Logout</a>
+          <a class="navbar-brand navbar-right" href="{% url 'logout' %}">Logout</a>
         {% endif %}
 
 <!--         <div id="navbar" class="navbar-collapse collapse">

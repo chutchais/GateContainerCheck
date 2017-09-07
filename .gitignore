@@ -1,11 +1,7 @@
 *.pyc
-equipment/*.pyc
-equipment/migrations/*.pyc
-equipment/migrations/*.py
-machine/*.pyc
-machine/migrations/*.py
-machine/migrations/*.pyc
+customcheck/*.pyc
+customcheck/migrations/*.pyc
+customcheck/migrations/*.py
 db.sqlite3
-berth/migrations/*.py
-berth/migrations/*.pyc
+
 
