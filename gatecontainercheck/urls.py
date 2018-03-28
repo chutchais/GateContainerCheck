@@ -13,26 +13,37 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
 from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
 
 # Add this import
 # from django.contrib.auth import views as auth_views
+# from rest_framework_jwt.views import refresh_jwt_token
 
 from customcheck.forms import LoginForm 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', include('customcheck.urls')),
+    # url(r'^', include('rest_auth.urls')),
+    # url(r'^registration/', include('rest_auth.registration.urls')),
+    # url(r'^rest-auth/', include('rest_auth.urls')),
+    # url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    # url(r'^refresh-token/', refresh_jwt_token),
+    
     url(r'^container/', include('customcheck.urls')),
-    url(r'^login/$', auth_views.login, {'template_name': 'login.html', 'authentication_form': LoginForm} , name='login'),
-    url(r'^logout/$', auth_views.logout, {'next_page': '/login'},name='logout'),
+    url(r'^gateout/', include('gateout.urls')),
+    # url(r'^', include('customcheck.urls')),
+    url(r'^login/', auth_views.login, {'template_name': 'login.html', 'authentication_form': LoginForm} , name='login'),
+    url(r'^logout/', auth_views.logout, {'next_page': '/login'},name='logout'),
     url(r'^api/', include("customcheck.api.urls", namespace='container-api')),
-    # url(r'^login/$', views.login, {'template_name': 'login.html','authentication_form': LoginForm}),
+    
+
 ]
 
-# urlpatterns += [
-#     url(r'^accounts/', include('django.contrib.auth.urls')),
-# ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

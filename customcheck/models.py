@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 # Create your models here.
@@ -8,7 +9,8 @@ class container(models.Model):
 	description = models.TextField(blank=True, null=True)
 	created_date = models.DateTimeField(auto_now_add=True)
 	modified_date = models.DateTimeField(blank=True, null=True,auto_now=True)
-	user = models.ForeignKey('auth.User',blank=True,null=True)
+	user = models.ForeignKey('auth.User',blank=True,null=True,related_name='create_container')
+	# user = models.ForeignKey(settings.AUTH_USER_MODEL,blank=True,null=True)
 
 	def __str__(self):
 		return self.container_no
@@ -21,10 +23,10 @@ class reject(models.Model):
 	no_customs = models.BooleanField(verbose_name ='ติด Custom',default=False)
 	no_vgm = models.BooleanField(verbose_name ='No VGM',default=False)
 	late_gate = models.BooleanField(verbose_name ='Late Gate',default=False)
-	other = models.CharField(verbose_name ='อื่นๆ',max_length=100)
+	other = models.CharField(verbose_name ='อื่นๆ',max_length=100,blank=True, null=True)
 	created_date = models.DateTimeField(auto_now_add=True)
 	modified_date = models.DateTimeField(blank=True, null=True,auto_now=True)
-	user = models.ForeignKey('auth.User',blank=True,null=True)
+	user = models.ForeignKey('auth.User',blank=True,null=True,related_name='reject_container')
 
 	def __str__(self):
 		return self.container_no
