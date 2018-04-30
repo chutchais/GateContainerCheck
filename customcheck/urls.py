@@ -4,6 +4,6 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^', views.home, name='home'),
-    url(r'^reject', views.CotainerReject, name='reject'),
+    url(r'^$', views.home, name='home'),
+    url(r'^reject$', views.CotainerReject, name='reject'),
 ]

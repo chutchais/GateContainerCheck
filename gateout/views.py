@@ -2,7 +2,7 @@
 from django.shortcuts import render,render_to_response
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 import sys
-
+from django.db.models import Q,F
 # from django.conf import settings
 # from django.db.models.signals import post_save
 # from django.dispatch import receiver
@@ -34,6 +34,38 @@ from .models import vessel,voy,booking,container,container_images
 # files = {'image':('image.png',i),
 # 'thumbnails':('tum.png',t)}
 
+from django.views.generic import DetailView,CreateView,UpdateView,DeleteView,ListView
+
+# class OperationListView(ListView):
+# 	model = Operation
+
+class ContainerDetailView(DetailView):
+	model = container
+
+class ContainerListView(ListView):
+	model = container
+	paginate_by = 30
+	template_name = 'gateout.html'
+
+	def get_queryset(self):
+		query = self.request.GET.get('q')
+		if query :
+			return container.objects.filter(Q(number__icontains=query)|
+				Q(booking__booking__icontains=query)|
+				Q(booking__voy__voy__icontains=query)|
+				Q(booking__voy__vessel__code__icontains=query)|
+				Q(booking__voy__vessel__name__icontains=query)|
+				Q(booking__line__icontains=query)|
+				Q(plate_id__icontains=query)|
+				Q(truck_company__icontains=query)|
+				Q(consignee__icontains=query)).order_by('-created_date')
+		return container.objects.all().order_by('-created_date')
+
+def home(request):
+	c = container.objects.all().order_by('-created_date')
+	return render(request,
+		'gateout.html', {'containers':c})
+
 @csrf_exempt
 def image(request):
 	# print ('image')
@@ -42,7 +74,7 @@ def image(request):
 		thumbnails = request.FILES['thumbnails']
 		slug = request.POST.get('slug', '')
 		c = container.objects.get(slug=slug)
-		print(c)
+		# print(c)
 		if c :
 			c_image = container_images.objects.create(container=c,
 								image=image,
@@ -108,13 +140,13 @@ def upload(request):
 							'created':False}
 		except ValueError:
 			response_msg={'msg':"Object of type 'type' is not JSON serializable",
-							'successful':False}
+							'created':False}
 
 		except TypeError:
 			response_msg={'msg':sys.exc_info()[0],
-							'successful':False}
+							'created':False}
 		except:
 			response_msg={'msg':sys.exc_info()[0],
-							'successful':False}
+							'created':False}
 
 	return JsonResponse (response_msg)

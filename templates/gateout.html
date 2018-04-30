@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}GateOut Information{% endblock title %}
+
+<br>
+
+
+
+{% block head %}
+
+{% endblock head %}
+
+{% block form_content %}
+    <div class="container">
+        <div class="row">
+            <h3>Gate Out Information</h3>
+
+            <form class='form' method='GET' action='.'>
+                        <input type='text' id='search' placeholder="Search container,booking,voy,line,vessel" name="q" value='{{ request.GET.q}}'>
+                        <button class='btn btn-default' type='submit'>Search</button>
+                        <a href="{% url 'gateout:list'  %}">Clear result</a>
+                    </form>
+
+            {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} record(s).
+            <div class="row">
+
+                {% for c in object_list %}
+                  <div class="col-sm-4 col-md-3">
+                    <div class="thumbnail">
+                            <a href="{{c.get_absolute_url}}">
+                                <img src="{{c.container_images_set.first.thumbnails_image.url}}" alt="...">
+                            </a>
+                          <div class="caption">
+                            <h3><a href="{{c.get_absolute_url}}">{{c}}</a>
+                                <small>{{c.terminal}}</small>
+                            </h3>
+
+                            <p>
+                            <i><small>{{c.created_date}}--{{c.iso}}</small></i><br>
+                            {{c.truck_company}}<br>
+                            {{c.booking}} ,{{c.booking.line}}<br>
+                            {{c.booking.voy}},{{c.booking.voy.vessel}}<br>
+                            {{c.plate_id}}
+                            </p>
+                          </div>
+                         
+
+                    </div>
+                  </div>
+              {% endfor %}
+            </div>
+
+            {% if is_paginated %}
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                      {% if page_obj.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+
+
+        </div>
+
+        {% if messages %}
+        <!-- <ul class="messages"> -->
+            {% for message in messages %}
+                {% if message.tags == 'success' %} <h1 class="text-success">{{ message }}</h1> {% endif %}
+                {% if message.tags == 'error' %} <h1 class="text-danger">{{ message }}</h1> {% endif %}
+            {% endfor %}
+            <!-- {% if message.tags %} class="label label-success" {% endif %} -->
+            
+        <!-- </ul> -->
+        {% endif %}
+
+    </div>
+{% endblock form_content %}

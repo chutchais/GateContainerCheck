@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
+from django.urls import reverse
 
 # Create your models here.
 class vessel(models.Model):
@@ -69,6 +70,9 @@ class container(models.Model):
 	def __str__(self):
 		return self.number
 
+	def get_absolute_url(self):
+		return reverse('gateout:detail', kwargs={'slug': self.slug})
+
 def image_directory_path(instance, filename):
     from datetime import datetime
     today = datetime.now()
@@ -85,6 +89,7 @@ def thumbnails_directory_path(instance, filename):
     day = today.day
     return 'thumbnails/%s/%s/%s/%s/%s' % (instance.container.terminal,year,month,day, filename)
 
+# Support multiple image for each contianer
 class container_images(models.Model):
 	container 		= models.ForeignKey(container)
 	image 			= models.ImageField(upload_to =image_directory_path )
@@ -95,6 +100,10 @@ class container_images(models.Model):
 
 	def __str__(self):
 		return self.container.number
+
+	def get_image_url(self):
+		return self.image.url
+
 
 # def image_directory_path(instance, filename):
 #     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>

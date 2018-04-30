@@ -7,21 +7,23 @@
 
 
 {% block head %}
-<div class="row">
-    <br>
-    
-   
-        {% if form_type == 'add' %}
-            <h3>Container Data Entry 
-             <small>
-            <a href="{% url 'reject' %}">Reject</a>
-        {% else %}
-            <h3>Reject Container Data Entry 
-             <small>
-            <a href="{% url 'home' %}">Home</a>
-        {% endif %}
+<div class="container">
+        <div class="row">
+        <br>
+        
+       
+            {% if form_type == 'add' %}
+                <h3>Container Data Entry 
+                 <small>
+                <a href="{% url 'container:reject' %}">Reject</a>
+            {% else %}
+                <h3>Reject Container Data Entry 
+                 <small>
+                <a href="{% url 'container:home' %}">Home</a>
+            {% endif %}
+        </small>
+        </h3>
     </small>
-    </h3>
 </div>
 {% endblock head %}
 

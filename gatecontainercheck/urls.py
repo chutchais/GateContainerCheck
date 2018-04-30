@@ -28,15 +28,15 @@ from customcheck.forms import LoginForm
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    # url(r'^', include('rest_auth.urls')),
+    #url(r'^', include('rest_auth.urls')),
     # url(r'^registration/', include('rest_auth.registration.urls')),
     # url(r'^rest-auth/', include('rest_auth.urls')),
     # url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     # url(r'^refresh-token/', refresh_jwt_token),
     
-    url(r'^container/', include('customcheck.urls')),
-    url(r'^gateout/', include('gateout.urls')),
-    # url(r'^', include('customcheck.urls')),
+    url(r'^container/', include('customcheck.urls',namespace='container')),
+    url(r'^gateout/', include('gateout.urls',namespace='gateout')),
+    url(r'^', include('customcheck.urls')),
     url(r'^login/', auth_views.login, {'template_name': 'login.html', 'authentication_form': LoginForm} , name='login'),
     url(r'^logout/', auth_views.logout, {'next_page': '/login'},name='logout'),
     url(r'^api/', include("customcheck.api.urls", namespace='container-api')),

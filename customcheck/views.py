@@ -60,6 +60,7 @@ def home(request):
     return render(request, 'container.html', {'form': form,'form_type':'add'})
 
 def CotainerReject(request):
+    print ('CotainerReject')
     # if not request.user.is_staff or not request.user.is_superuser:
     #         raise Http404('Require Login...')
     # if this is a POST request we need to process the form data

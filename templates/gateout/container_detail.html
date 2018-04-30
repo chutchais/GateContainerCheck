@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}GateOut Information{% endblock title %}
+
+<br>
+
+
+
+{% block head %}
+
+{% endblock head %}
+
+{% block form_content %}
+    <div class="container">
+       
+            <div class="page-header">
+              <h1>Container : <a href="{% url 'gateout:list' %}?q={{object}}">{{ object}}</a> <small>{{ object.created_date}}</small></h1>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4 col-md-4">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Vessel and Booking</h3>
+                      </div>
+                      <div class="panel-body">
+                        Booking : <a href="{% url 'gateout:list' %}?q={{object.booking}}">{{object.booking}}</a><br>
+                        Vessel : <a href="{% url 'gateout:list' %}?q={{object.booking.voy.vessel.code}}">{{object.booking.voy.vessel}}</a> <br>
+                        Line   : {{object.booking.line}} <br>
+                        Voy    : <a href="{% url 'gateout:list' %}?q={{object.booking.voy}}">{{object.booking.voy}}</a> <br>
+                        Move : {{object.move}} <br> 
+                        Pod :  {{object.pod}} <br>
+                        Terminal :  {{object.terminal}}
+                      </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-4">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Container</h3>
+                      </div>
+                      <div class="panel-body">
+                        License Plate : <a href="{% url 'gateout:list' %}?q={{object.plate_id}}">{{object.plate_id}}</a> <br>
+                        Order Date  : {{object.order_date}} <br>
+                        Company     : {{object.truck_company}} <br>
+                        Consignee   : {{object.consignee}} <br>
+                        ISO         : {{object.iso}} <br>
+                        Seal1       : {{object.seal1}} <br>
+                        Seal2       : {{object.seal2}} <br>
+                        IMO1       : {{object.imo1}} , IMO2 : {{object.imo2}}<br>
+                        Temperature   : {{object.temperature}}<br>
+                        Weight : {{object.weight}}
+                      </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-4">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">More details</h3>
+                      </div>
+                      <div class="panel-body">
+                        <b>Genset  : </b><br>{{object.genset}} <br>
+                        <b>Exception  : </b><br>{{object.exception}} <br>
+                        <b>Damage     : </b><br>{{object.damage}} <br>
+                        <b>Remark     : </b><br>{{object.remark}} <br>
+                        <b>Checker     :</b><br>{{object.checker}} <small>On {{object.check_date}}</small>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            
+                <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Image Captured.</h3>
+                      </div>
+                      <div class="panel-body">
+                            <div class="row">
+                                {% for i in object.container_images_set.all %}
+                                  <div class="col-xs-6 col-md-3">
+                                    <a href="{{ i.image.url }}" class="thumbnail">
+                                      <img src="{{ i.thumbnails_image.url }}" alt="...">
+                                    </a>
+                                  </div>
+                                {% endfor %}
+                            </div>
+                      </div>
+                </div>
+           
+
+            
+
+
+
+        {% if messages %}
+        <!-- <ul class="messages"> -->
+            {% for message in messages %}
+                {% if message.tags == 'success' %} <h1 class="text-success">{{ message }}</h1> {% endif %}
+                {% if message.tags == 'error' %} <h1 class="text-danger">{{ message }}</h1> {% endif %}
+            {% endfor %}
+            <!-- {% if message.tags %} class="label label-success" {% endif %} -->
+            
+        <!-- </ul> -->
+        {% endif %}
+
+    </div>
+{% endblock form_content %}
