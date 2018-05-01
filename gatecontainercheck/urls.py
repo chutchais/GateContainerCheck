@@ -20,9 +20,10 @@ from django.conf.urls import include
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
-# Add this import
-# from django.contrib.auth import views as auth_views
-# from rest_framework_jwt.views import refresh_jwt_token
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 from customcheck.forms import LoginForm 
 
@@ -40,6 +41,14 @@ urlpatterns = [
     url(r'^login/', auth_views.login, {'template_name': 'login.html', 'authentication_form': LoginForm} , name='login'),
     url(r'^logout/', auth_views.logout, {'next_page': '/login'},name='logout'),
     url(r'^api/', include("customcheck.api.urls", namespace='container-api')),
+    url(r'^api/gateout', include("gateout.api.urls", namespace='gateout-api')),
+
+    # #Restful Authentication
+    # url(r'^api-auth/', include('rest_framework.urls')),
+    # # Token
+    # # url(r'^api/login/', include(('user.urls','user'),namespace='login')),
+    # url(r'^api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # url(r'^api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
     
 
 ]
