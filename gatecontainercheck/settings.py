@@ -160,6 +160,12 @@ STATIC_ROOT = 'd:\\auto-gate\\static\\'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'd:\\auto-gate\\media\\'
 
+# STATIC_URL = '/static/'
+# STATIC_ROOT = 'C:\\virtualenv\\projects\\gatecontainercheck\\data\\static\\'
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = 'C:\\virtualenv\\projects\\gatecontainercheck\\data\media\\'
+
+
 from django.contrib import admin
 admin.site.site_header = 'Auto Gate Control System'
 admin.site.site_title = 'Auto Gate Control System'

@@ -20,10 +20,10 @@ from django.conf.urls import include
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+# from rest_framework_simplejwt.views import (
+#     TokenObtainPairView,
+#     TokenRefreshView,
+# )
 
 from customcheck.forms import LoginForm 
 

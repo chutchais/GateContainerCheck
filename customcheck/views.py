@@ -43,7 +43,7 @@ def home(request):
             # ...
             container_no = form.cleaned_data['container']
             comment = form.cleaned_data['comment']
-            obj = container.objects.create(container_no=container_no,description=comment,user=request.user)
+            obj = container.objects.create(container_no=container_no,description=comment)
 
             print ('Container is %s' % obj.container_no)
             # redirect to a new URL:
@@ -86,8 +86,7 @@ def CotainerReject(request):
             obj = reject.objects.create(container_no=container_no,
                     description=comment,
                     no_shore=no_shore,no_paid=no_paid,no_customs=no_customs,
-                    no_vgm=no_vgm,late_gate=late_gate,other=other,
-                    user=request.user)
+                    no_vgm=no_vgm,late_gate=late_gate,other=other)
 
             print ('Rejected Container is %s' % obj.container_no)
             # redirect to a new URL:
