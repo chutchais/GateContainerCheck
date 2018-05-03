@@ -43,16 +43,20 @@ class face_detection :
 		import urllib3
 		# from urllib3 import urlretrieve
 		http = urllib3.PoolManager()
-		# headers = urllib3.util.make_headers(basic_auth='gate:Gateview2018')
-		# r = http.request('GET', 
-		# 				'http://gate:Gateview2018@192.168.0.191/Streaming/Channels/1/picture',
-		# 				preload_content=False,
-		# 				headers=headers)
-		headers = urllib3.util.make_headers(basic_auth='gate:lcb12017')
+		# Production Camera
+		headers = urllib3.util.make_headers(basic_auth='gate:Gateview2018')
 		r = http.request('GET', 
-				'http://gate:lcb12017@192.168.0.64/Streaming/Channels/1/picture',
-				preload_content=False,
-				headers=headers)
+						'http://gate:Gateview2018@192.168.0.191/Streaming/Channels/1/picture',
+						preload_content=False,
+						headers=headers)
+
+		# Demo Camera
+		# headers = urllib3.util.make_headers(basic_auth='gate:lcb12017')
+		# r = http.request('GET', 
+		# 		'http://gate:lcb12017@192.168.0.64/Streaming/Channels/1/picture',
+		# 		preload_content=False,
+		# 		headers=headers)
+
 		# r = http.request('GET', 'http://127.0.0.1:8000/media/images/LCB1/2018/4/20/side0.jpg',preload_content=False)
 		img = Image.open(BytesIO(r.data))
 		# img.save('driver.png')
