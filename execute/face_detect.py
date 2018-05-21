@@ -80,11 +80,15 @@ class face_detection :
 			if detected :
 				# Save to file for Upload to Web
 				# cv2.putText(img,"Hello World!!!", (10,10), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
-				img_capture.save('main_image.jpg')
-				img_capture.resize((400,225),Image.ANTIALIAS).save('thumbnail_image.jpg')
+				
+				# img_capture.save('main_image.jpg')
+				# img_capture.resize((400,225),Image.ANTIALIAS).save('thumbnail_image.jpg')
 				print('Thanks Bye!!!!!!!')
 				break
 			sleep(0.5)
+
+		img_capture.save('main_image.jpg')
+		img_capture.resize((400,225),Image.ANTIALIAS).save('thumbnail_image.jpg')
 
 # run()
 

@@ -132,9 +132,14 @@ class eir:
 
 			# Gross weight,Seal
 			if ix == line_offset+13:
-				print(line_data)
+				print(line_data,len(line_data))
 				gross_weight = line_data[0].strip()
-				seal1 = line_data[2].strip()
+				if len(line_data)>2:
+					seal1 = line_data[2].strip()
+				else:
+					seal1 = ''
+
+				# sys.exit()
 				# print (gross_weight,seal)
 
 			if ix == line_offset+14:
@@ -165,7 +170,7 @@ class eir:
 			if ix == line_offset+29:
 				print (line_data)
 				checker = line_data[0].strip()
-				check_date = line_data[4].strip()
+				check_date = line_data[len(line_data)-1].strip()
 				# print (damage,remark)
 
 

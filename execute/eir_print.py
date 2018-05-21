@@ -22,7 +22,8 @@ from face_detect import face_detection
 
 
 
-url = 'http://127.0.0.1:8000'
+url = 'http://127.0.0.1:8000' #Develop 
+# url = 'http://192.168.10.20:8001' #Production
 
 class readable_dir(argparse.Action):
     def __call__(self,parser, namespace, values, option_string=None):
