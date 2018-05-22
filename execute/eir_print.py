@@ -1,5 +1,5 @@
 # Command to run 
-# python eir_print.py -i D:\gateout -t D:\gateout\template\EIR_LCMT.xlsx
+# python eir_print.py -i D:\gateout -t D:\gateout\template\EIR_LCMT.xlsx -c COM5
 
 import argparse
 import os.path
@@ -22,8 +22,8 @@ from face_detect import face_detection
 
 
 
-url = 'http://127.0.0.1:8000' #Develop 
-# url = 'http://192.168.10.20:8001' #Production
+# url = 'http://127.0.0.1:8000' #Develop 
+url = 'http://192.168.10.20:8001' #Production
 
 class readable_dir(argparse.Action):
     def __call__(self,parser, namespace, values, option_string=None):
@@ -69,7 +69,7 @@ def run():
             # Delete Main and Thumbnail image file.
             
             captured = face_detection()
-            captured.capture(50)
+            captured.capture(2)
             # ------------
 
             # Once face captured then Print EIR
@@ -78,18 +78,21 @@ def run():
             target_file = target_dir[0] +'\\' + tail
             shutil.move(eirs[0],target_file )
 
-
+            # Open Gaet barrier
+            print('Open gate on port %s' % com_port)
+            open_gate(com_port)
+            # -----------------
 
             #Upload to Database (Data)
             if result :
                 
                 print ('---Start to send data---')
-                # print(x.json)
-                # sys.exit()
                 r = upload_container('api/gateout/data',x.json)
                 # sys.exit()
                 if r['successful']:
                     upload_image('api/gateout/image',r['container'],r['slug'],'main_image.jpg','thumbnail_image.jpg')
+
+
 
         else:
             print ('Not found EIR file : %s' % datetime.now() )
@@ -110,6 +113,7 @@ if __name__ == "__main__":
     parser.add_argument('-i', '--input_directory', action=readable_dir, default=ldir)
     parser.add_argument('-b', '--base_directory', action=readable_dir,default='')
     parser.add_argument('-t', '--template_file',default='eir_template.xlsx', help="EIR Template file")
+    parser.add_argument('-c', '--com_port',default='COM1', help="COM port for controller")
     args = parser.parse_args()
     
     # fSrcExist=args.master
@@ -139,6 +143,7 @@ if __name__ == "__main__":
     print ('Template EIR file : %s' % args.template_file)
     print ('Working Directory : %s' % args.input_directory)
     print ('Printer : %s' % printer)
+    print ('COM port : %s' % args.com_port)
     print ('********************************************************************')
 
     # make output in working directory
@@ -146,16 +151,32 @@ if __name__ == "__main__":
     error_dir = ""
     working_dir = args.input_directory
     template_file = args.template_file
+    com_port = args.com_port
     setting_data = j
     # print (printer)
     directory= working_dir +"\output"
     if not os.path.exists(directory):
         os.makedirs(directory)
     
+	# import serial.tools.list_ports as port_list
+	# ports = list(port_list.comports())
+	# 	for p in ports:
+	# 	print(p)
+
     # --------------------------------
 
     spinner = itertools.cycle(['-', '/', '|', '\\'])
 
+def open_gate(comport):
+	# try :
+	import serial
+	import time
+	s = serial.Serial(comport)
+	time.sleep(3)
+	s.write('0'.encode())
+	print('Open gate Successful')
+	# finally:
+	# 	s.close()
 
 def upload_container(service,data):
     import urllib3

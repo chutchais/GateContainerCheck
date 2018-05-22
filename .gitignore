@@ -3,5 +3,7 @@ customcheck/*.pyc
 customcheck/migrations/*.pyc
 customcheck/migrations/*.py
 db.sqlite3
+execute/*.png
+execute/*.jpg
 
 
