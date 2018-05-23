@@ -52,52 +52,56 @@ def makeDirectory():
 
 
 def run():
-    # import urllib3
-    # http = urllib3.PoolManager()
-    # print ('Intial HTTP successful')
     while True:
         eirs = glob.glob(working_dir + '\\*.*')
+
         if len(eirs)>0:
-            target_dir =makeDirectory()
-            filename=  eirs[0]
-            head, tail = os.path.split(eirs[0])
-            print ('Found EIR file : %s ' % filename)
-            x = eir_print(filename,template_file,target_dir[0],setting_data,printer)
-            # print(x.json)
+	        for eir in eirs:
+	            target_dir =makeDirectory()
+	            # filename=  eirs[0]
+	            filename =  eir
+	            # head, tail = os.path.split(eirs[0])
+	            head, tail = os.path.split(eir)
+	            print ('Found EIR file : %s ' % filename)
+	            x = eir_print(filename,template_file,target_dir[0],setting_data,printer)
+	            # print(x.json)
 
-            # Capture Image and do Face Detection
-            # Delete Main and Thumbnail image file.
-            
-            captured = face_detection()
-            captured.capture(2)
-            # ------------
+	            # Capture Image and do Face Detection
+	            # Delete Main and Thumbnail image file.
+	            
+	            captured = face_detection()
+	            captured.capture(1)
+	            # ------------
 
-            # Once face captured then Print EIR
-            result = x.print()
-            # Move file to output folder 
-            target_file = target_dir[0] +'\\' + tail
-            shutil.move(eirs[0],target_file )
+	            # Once face captured then Print EIR
+	            result = x.print()
+	            # Move file to output folder 
+	            target_file = target_dir[0] +'\\' + tail
+	            shutil.move(eir,target_file )
 
-            # Open Gaet barrier
-            print('Open gate on port %s' % com_port)
-            open_gate(com_port)
-            # -----------------
+	            # # Open Gaet barrier
+	            # print('Open gate on port %s' % com_port)
+	            # open_gate(com_port)
+	            # # -----------------
 
-            #Upload to Database (Data)
-            if result :
-                
-                print ('---Start to send data---')
-                r = upload_container('api/gateout/data',x.json)
-                # sys.exit()
-                if r['successful']:
-                    upload_image('api/gateout/image',r['container'],r['slug'],'main_image.jpg','thumbnail_image.jpg')
+	            #Upload to Database (Data)
+	            # result
+	            if result :
+	                print ('---Start to send data---')
+	                r = upload_container('api/gateout/data',x.json)
+	                # sys.exit()
+	                if r['successful']:
+	                    upload_image('api/gateout/image',r['container'],r['slug'],'main_image.jpg','thumbnail_image.jpg')
 
-
-
+	        
+	        # Open Gaet barrier
+	        print('Open gate on port %s' % com_port)
+	        open_gate(com_port)
+	        # # -----------------
         else:
             print ('Not found EIR file : %s' % datetime.now() )
 
-        sleep(3)    
+        sleep(2)    
 
 
 if __name__ == "__main__":
@@ -172,7 +176,7 @@ def open_gate(comport):
 	import serial
 	import time
 	s = serial.Serial(comport)
-	time.sleep(3)
+	time.sleep(7)
 	s.write('0'.encode())
 	print('Open gate Successful')
 	# finally:
