@@ -5,5 +5,6 @@ customcheck/migrations/*.py
 db.sqlite3
 execute/*.png
 execute/*.jpg
+execute/*.txt
 
 
