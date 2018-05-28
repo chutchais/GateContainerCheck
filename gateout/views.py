@@ -42,6 +42,8 @@ class ContainerListView(ListView):
 	template_name = 'gateout.html'
 
 	def get_queryset(self):
+		from django.utils import timezone
+		import pytz
 		query = self.request.GET.get('q')
 		if query :
 			return container.objects.filter(Q(number__icontains=query)|
@@ -53,7 +55,11 @@ class ContainerListView(ListView):
 				Q(plate_id__icontains=query)|
 				Q(truck_company__icontains=query)|
 				Q(consignee__icontains=query)).order_by('-created_date')
-		return container.objects.all().order_by('-created_date')
+		else:
+			to_day = timezone.now().today()
+		return container.objects.filter(created_date__year=to_day.year,
+										created_date__month=to_day.month,
+										created_date__day=to_day.day).order_by('-created_date')
 
 # 
 

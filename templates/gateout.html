@@ -22,6 +22,10 @@
                     </form>
 
             {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} record(s).
+            
+            {% if not request.GET.q %}
+                -- Data of Today
+            {% endif %}
             <div class="row">
 
                 {% for c in object_list %}
