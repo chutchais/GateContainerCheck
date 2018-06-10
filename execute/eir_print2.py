@@ -1,5 +1,5 @@
 # Command to run 
-# python eir_print.py -i D:\gateout -t D:\gateout\template\EIR_LCMT.xlsx -c COM5
+# python eir_print2.py -i D:\gateout -t D:\gateout\template\EIR_LCMT.xlsx -c COM5
 
 import argparse
 import os.path
@@ -361,10 +361,9 @@ def open_gate(comport):
 		time.sleep(7)
 		s.write('0'.encode())
 		print('Open gate Successful')
-	except:
-		print ('Error on Comport')
-	# finally:
-	# 	s.close()
+		s.close()
+	except :
+		print('Unable to connect open gate')
 
 def upload_container(service,data):
 	try :

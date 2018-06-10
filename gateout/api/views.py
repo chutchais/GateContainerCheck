@@ -29,10 +29,12 @@ def upload(request):
 	if request.method=='POST':
 		try :
 			import datetime
+
 			data = json.loads(request.body.decode("utf-8"))
 			# Show all data
 			for key in data:
 				print (key,data[key])
+			# return JsonResponse ({'error':'sds'})
 			# ------------
 			# Verify Container info
 			# Create Vessel

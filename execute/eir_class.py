@@ -57,6 +57,7 @@ class eir:
 				line= line_data[2].strip()
 				container= line_data[7].strip()
 				# print (order_date,line,container)
+
 			# get vessel code/voy
 			if ix == line_offset+6:
 				print (line_data)
@@ -64,6 +65,17 @@ class eir:
 				voy_arry = tmp_text.split(' ')
 
 				imo1=''
+
+				# Add by Chutchai on June 10
+				# To Fix Barge EIR -->return blank
+				if tmp_text == '':
+					vessel_code_voy_text = ''
+					vessel_code = ''
+					voy = ''
+					imo1 = ''
+					continue
+				# ###########################
+
 				if len(voy_arry) == 0:
 					voy = tmp_text
 
@@ -76,33 +88,38 @@ class eir:
 			# get Vessel Name,Move, date
 			if ix == line_offset+7:
 				print ('IX %s :%s' %(ix,line_data))
-				move = line_data[4].strip()
-				if move =='':
-					move = line_data[3].strip()
-				if move =='':
-					move = line_data[2].strip()
-				vessel_name= line_data[0].strip()
-				imo2=''
-				if len(vessel_name.split('/'))>1:
-					# print('Mix')
-					tmp_imo = vessel_name.split('/')[0].strip()
-					tmp_vessel_name = vessel_name.split('/')[1].strip()
 
-					tmp_vessel_arry = tmp_vessel_name.split(' ')
-
-					tmp_imo = '%s / %s' % (tmp_imo,tmp_vessel_arry[0].strip())
-					tmp_vessel_name = tmp_vessel_name.replace(tmp_vessel_arry[0].strip(),'')
-
-					vessel_name = tmp_vessel_name.strip()
-					imo2 = tmp_imo.strip()
-					# print (tmp_imo,tmp_vessel_name)
-					move = line_data[3].strip() #'DRY,2DG'
+				if len(line_data) == 4 :
+					# Barge BMT
+					vessel_name = ''
+					move = line_data[0].strip()
+					imo2 = ''
+				else :
+					move = line_data[4].strip()
 					if move =='':
-						move = line_data[2].strip()#1 DG
+						move = line_data[3].strip()
+					if move =='':
+						move = line_data[2].strip()
+					vessel_name= line_data[0].strip()
+					imo2=''
+					if len(vessel_name.split('/'))>1:
+						# print('Mix')
+						tmp_imo = vessel_name.split('/')[0].strip()
+						tmp_vessel_name = vessel_name.split('/')[1].strip()
+
+						tmp_vessel_arry = tmp_vessel_name.split(' ')
+
+						tmp_imo = '%s / %s' % (tmp_imo,tmp_vessel_arry[0].strip())
+						tmp_vessel_name = tmp_vessel_name.replace(tmp_vessel_arry[0].strip(),'')
+
+						vessel_name = tmp_vessel_name.strip()
+						imo2 = tmp_imo.strip()
+						# print (tmp_imo,tmp_vessel_name)
+						move = line_data[3].strip() #'DRY,2DG'
+						if move =='':
+							move = line_data[2].strip()#1 DG
 
 
-
-				
 				date = line_data[len(line_data)-1].strip()
 				# print(vessel_name,move,date)
 			# Type ,ISO ,POD
@@ -208,6 +225,7 @@ class eir:
 			"check_date":check_date
 		}
 		# print(data)
+		# sys.exit()
 		return data
 
 

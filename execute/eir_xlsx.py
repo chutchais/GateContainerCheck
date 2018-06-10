@@ -28,6 +28,8 @@ class eir_print:
 		self.json = data
 
 		# print(data)
+		# sys.exit()
+
 		print ('Template file %s' % self.template_file)
 
 		import win32com.client as win32
@@ -38,6 +40,8 @@ class eir_print:
 			col_range = self.setting[key]
 			sheet.Range(col_range).Value = data[key]
 			print (key,col_range,data[key])
+
+
 
 		# xfile = load_workbook(self.template_file)
 		# sheet = xfile.get_sheet_by_name('EIR')
