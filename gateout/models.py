@@ -15,7 +15,8 @@ class vessel(models.Model):
 		return '%s %s' %(self.code,self.name)
 
 class voy(models.Model):
-	voy				= models.CharField(max_length=50,primary_key=True)
+	# voy				= models.CharField(max_length=50,primary_key=True)
+	voy				= models.CharField(max_length=50)
 	vessel 			= models.ForeignKey(vessel)
 	description 	= models.TextField(blank=True, null=True)
 	created_date 	= models.DateTimeField(auto_now_add=True)
@@ -25,7 +26,8 @@ class voy(models.Model):
 		return self.voy
 
 class booking(models.Model):
-	booking 		= models.CharField(max_length=50,primary_key=True)
+	# booking 		= models.CharField(max_length=50,primary_key=True)
+	booking 		= models.CharField(max_length=50)
 	line			= models.CharField(max_length=50)
 	voy 			= models.ForeignKey(voy)
 	description 	= models.TextField(blank=True, null=True)
