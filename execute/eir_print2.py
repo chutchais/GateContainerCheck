@@ -279,9 +279,7 @@ def print_eir():
 				# Count up print-out
 
 				# # -----------------
-				# Say receive EIR
-				ask_eir()
-
+				
 				#Upload to Database (Data)
 				# result
 				if result :
@@ -291,7 +289,9 @@ def print_eir():
 					if r['successful']:
 						upload_image('api/gateout/image',r['container'],r['slug'],'main_image.jpg','thumbnail_image.jpg')
 
-			
+			# Say receive EIR
+			ask_eir()
+
 			# Open Gaet barrier
 			print('Open gate on port %s' % com_port)
 			open_gate(com_port)
