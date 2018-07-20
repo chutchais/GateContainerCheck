@@ -1,5 +1,5 @@
 # Command to run 
-# python eir_print2.py -i D:\gateout -t D:\gateout\template\EIR_LCMT.xlsx -c COM5
+# python eir_print.py -i D:\gateout -t D:\gateout\template\EIR_LCMT.xlsx -c COM5
 
 import argparse
 import os.path
@@ -27,6 +27,11 @@ import argparse
 
 from eir_xlsx import eir_print
 from face_detect import face_detection
+
+from colorama import init
+from colorama import Fore, Back, Style
+
+
 
 
 class WindowMgr:
@@ -135,6 +140,7 @@ an optional message """
 
 # url = 'http://127.0.0.1:8000' #Develop 
 url = 'http://192.168.10.20:8001' #Production
+paper_count = 0 
 
 class readable_dir(argparse.Action):
 	def __call__(self,parser, namespace, values, option_string=None):
@@ -164,7 +170,11 @@ def makeDirectory():
 
 def main():
 	try:
-		secs_between_keys=0.05
+		init(autoreset=True)
+
+		print(Fore.GREEN + 'Print count start : %s' % paper_count)
+
+		secs_between_keys=0.01
 		# regex = "Untitled - Notepad"
 		# regex = "Microsoft Excel - Book1"
 		regex = "Session A - [24 x 80]"
@@ -196,6 +206,11 @@ def main():
 		pyautogui.press('enter')
 		import re
 		callcard_rex = re.compile("^[0-9]{5}$")
+
+
+		# Say Ready to process.
+		from playsound import playsound
+		playsound('sounds/welcome.wav')
 
 		while True:
 			callcard_number = pyautogui.prompt(text='Please scan Call card number :', title='Scan call card Number' , default='')
@@ -230,7 +245,8 @@ def main():
 		print(traceback.format_exc())
 
 def print_eir():
-	sleep(2)
+	global paper_count
+	sleep(0.1)
 	for i in range(0,3):
 		eirs = glob.glob(working_dir + '\\*.*')
 		if len(eirs)>0:
@@ -257,10 +273,14 @@ def print_eir():
 				target_file = target_dir[0] +'\\' + tail
 				shutil.move(eir,target_file )
 
-				# # Open Gaet barrier
-				# print('Open gate on port %s' % com_port)
-				# open_gate(com_port)
+				paper_count = paper_count + 1
+				print(Fore.GREEN + 'Print count : %s' % paper_count)
+
+				# Count up print-out
+
 				# # -----------------
+				# Say receive EIR
+				ask_eir()
 
 				#Upload to Database (Data)
 				# result
@@ -351,7 +371,20 @@ if __name__ == "__main__":
 
 	# --------------------------------
 
-	spinner = itertools.cycle(['-', '/', '|', '\\'])
+	# spinner = itertools.cycle(['-', '/', '|', '\\'])
+
+
+def ask_eir():
+	try:
+		# import pyttsx3
+		# engine = pyttsx3.init()
+		# engine.say('Rub bai EIR doy kra')
+		# engine.say('Rub bai EIR doy kra')
+		# engine.runAndWait()
+		from playsound import playsound
+		playsound('sounds/eir.wav')
+	except:
+		print ('Error on Asking for EIR function')
 
 def open_gate(comport):
 	try :
@@ -361,9 +394,10 @@ def open_gate(comport):
 		time.sleep(7)
 		s.write('0'.encode())
 		print('Open gate Successful')
-		s.close()
-	except :
-		print('Unable to connect open gate')
+	except:
+		print ('Error on Comport')
+	# finally:
+	# 	s.close()
 
 def upload_container(service,data):
 	try :

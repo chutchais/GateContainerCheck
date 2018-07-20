@@ -19,11 +19,16 @@ import win32print
 from eir_xlsx import eir_print
 from face_detect import face_detection
 
+from colorama import init
+from colorama import Fore, Back, Style
+
+
+paper_count =0 
 
 
 
-# url = 'http://127.0.0.1:8000' #Develop 
-url = 'http://192.168.10.20:8001' #Production
+url = 'http://127.0.0.1:8000' #Develop 
+# url = 'http://192.168.10.20:8001' #Production
 
 class readable_dir(argparse.Action):
 	def __call__(self,parser, namespace, values, option_string=None):
@@ -52,6 +57,10 @@ def makeDirectory():
 
 
 def run():
+	paper_count = 0
+	init(autoreset=True)
+
+	print(Fore.GREEN + 'Print count start : %s' % paper_count)
 	while True:
 		eirs = glob.glob(working_dir + '\\*.*')
 
@@ -79,6 +88,8 @@ def run():
 				target_file = target_dir[0] +'\\' + tail
 				shutil.move(eir,target_file )
 
+				paper_count = paper_count+1
+				print(Fore.GREEN + 'Print count : %s' % paper_count)
 				# # Open Gaet barrier
 				# print('Open gate on port %s' % com_port)
 				# open_gate(com_port)

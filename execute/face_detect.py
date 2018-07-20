@@ -71,18 +71,14 @@ class face_detection :
 	#haarcascade_lefteye_2splits.xml
 	def capture(self,capture_loop = 5):
 		
-		lbp_face_cascade = cv2.CascadeClassifier('data/haarcascade_lefteye_2splits.xml')
+		# lbp_face_cascade = cv2.CascadeClassifier('data/haarcascade_lefteye_2splits.xml')
+
 		for i in range(capture_loop):
 			img_capture = self.download_img()
-			img = cv2.imread('img_captured.png')
-			detected,img = self.detect_faces(lbp_face_cascade,img)
-
+			# img = cv2.imread('img_captured.png')
+			# detected,img = self.detect_faces(lbp_face_cascade,img)
+			detected = True
 			if detected :
-				# Save to file for Upload to Web
-				# cv2.putText(img,"Hello World!!!", (10,10), cv2.FONT_HERSHEY_SIMPLEX, 2, 255)
-				
-				# img_capture.save('main_image.jpg')
-				# img_capture.resize((400,225),Image.ANTIALIAS).save('thumbnail_image.jpg')
 				print('Thanks Bye!!!!!!!')
 				break
 			sleep(0.5)
