@@ -26,14 +26,12 @@ from django.conf.urls.static import static
 # )
 
 from customcheck.forms import LoginForm 
+from .routers import router
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    #url(r'^', include('rest_auth.urls')),
-    # url(r'^registration/', include('rest_auth.registration.urls')),
-    # url(r'^rest-auth/', include('rest_auth.urls')),
-    # url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
-    # url(r'^refresh-token/', refresh_jwt_token),
+
     
     url(r'^container/', include('customcheck.urls',namespace='container')),
     url(r'^gateout/', include('gateout.urls',namespace='gateout')),
@@ -42,14 +40,7 @@ urlpatterns = [
     url(r'^logout/', auth_views.logout, {'next_page': '/login'},name='logout'),
     url(r'^api/', include("customcheck.api.urls", namespace='container-api')),
     url(r'^api/gateout', include("gateout.api.urls", namespace='gateout-api')),
-
-    # #Restful Authentication
-    # url(r'^api-auth/', include('rest_framework.urls')),
-    # # Token
-    # # url(r'^api/login/', include(('user.urls','user'),namespace='login')),
-    # url(r'^api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # url(r'^api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
-    
+    url(r'^api2/', include(router.urls)),
 
 ]
 
