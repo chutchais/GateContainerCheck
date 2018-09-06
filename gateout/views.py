@@ -68,6 +68,19 @@ def home(request):
 	return render(request,
 		'gateout.html', {'containers':c})
 
+def daily(request,year,month,day):
+	c = container.objects.filter(created_date__year=year,
+		created_date__month=month,
+		created_date__day=day).order_by('created_date')
+	# c = container.objects.all()
+	context={
+		'object_list' : c,
+		'year':year,'month':month,'day':day
+		}
+	# print(c)
+	return render(request,
+		'gateout_daily.html',context)
+
 # @api_view(['POST'])
 # @csrf_exempt
 # def image(request):
