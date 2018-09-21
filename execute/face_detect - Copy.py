@@ -46,7 +46,7 @@ class face_detection :
 		# Production Camera
 		headers = urllib3.util.make_headers(basic_auth='gate:Gateview2018')
 		r = http.request('GET', 
-						'http://gate:Gateview2018@192.168.0.191/Streaming/Channels/1/picture',
+						'http://gate:Gateview2018@192.168.103.13/Streaming/Channels/1/picture',
 						preload_content=False,
 						headers=headers)
 # http://gate:Gateview2018@192.168.0.191/Streaming/Channels/1/picture
