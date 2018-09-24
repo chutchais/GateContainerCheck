@@ -246,7 +246,7 @@ def main():
 
 def print_eir():
 	global paper_count
-	sleep(0.1)
+	sleep(1)
 	for i in range(0,3):
 		eirs = glob.glob(working_dir + '\\*.*')
 		if len(eirs)>0:
@@ -268,7 +268,9 @@ def print_eir():
 				# ------------
 
 				# Once face captured then Print EIR
+				# ask_eir()
 				result = x.print()
+				# ask_eir()
 				# Move file to output folder 
 				target_file = target_dir[0] +'\\' + tail
 				shutil.move(eir,target_file )
@@ -281,8 +283,11 @@ def print_eir():
 				# # -----------------
 				
 				#Upload to Database (Data)
+
 				# result
 				if result :
+					# captured = face_detection()
+					# captured.capture(1)
 					print ('---Start to send data---')
 					r = upload_container('api/gateout/data',x.json)
 					# sys.exit()
